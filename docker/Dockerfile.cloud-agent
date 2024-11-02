@@ -1,0 +1,14 @@
+FROM alpine:3.7
+LABEL maintainer="Nho Luong <luongutnho@hotmail.com>"
+WORKDIR /home/nholuongut
+RUN apk add --no-cache bash conntrack-tools iproute2 util-linux curl
+COPY ./scope /home/nholuongut/
+ENTRYPOINT ["/home/nholuongut/scope", "--mode=probe", "--no-app", "--probe.docker=true"]
+
+ARG revision
+LABEL works.nholuongut.role="system" \
+      maintainer="nholuongutworks <luongutnho@hotmail.com>" \
+      org.opencontainers.image.title="cloud-agent" \
+      org.opencontainers.image.source="https://github.com/nholuongut/scope" \
+      org.opencontainers.image.revision="${revision}" \
+      org.opencontainers.image.vendor="nholuongutworks"

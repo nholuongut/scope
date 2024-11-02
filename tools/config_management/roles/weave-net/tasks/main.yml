@@ -1,0 +1,26 @@
+---
+# Set up nholuongut Net.
+
+- name: install nholuongut net
+  get_url:
+    url: https://git.io/nholuongut
+    dest: /usr/local/bin/nholuongut
+    mode: 0555
+
+- name: stop nholuongut net
+  command: /usr/local/bin/nholuongut stop
+
+- name: start nholuongut net
+  command: /usr/local/bin/nholuongut launch
+
+- name: get nholuongut net's status
+  command: /usr/local/bin/nholuongut status
+  changed_when: false
+  register: nholuongut_status
+  tags:
+    - output
+
+- name: print outpout of `nholuongut status`
+  debug: msg="{{ nholuongut_status.stdout_lines }}"
+  tags:
+    - output

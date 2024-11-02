@@ -1,0 +1,27 @@
+---
+################################################################################
+# Install Docker and Kubernetes, and configure Kubernetes to
+# use nholuongut Net's CNI plugin (a.k.a. nholuongut Kube).
+#
+# See also:
+# - http://kubernetes.io/docs/getting-started-guides/kubeadm/
+# - https://github.com/nholuongutworks/nholuongut-kube
+################################################################################
+
+- name: install docker, kubernetes and nholuongut-kube
+  hosts: all
+  gather_facts: false  # required in case Python is not available on the host
+  become: true
+  become_user: root
+
+  pre_tasks:
+    - include: library/setup_ansible_dependencies.yml
+
+  roles:
+    - docker-install
+    - nholuongut-net-utilities
+    - kubernetes-install
+    - kubernetes-docker-images
+    - kubelet-stop
+    - kubernetes-start
+    - nholuongut-kube

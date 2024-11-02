@@ -1,0 +1,44 @@
+# borrowed from https://cloud.nholuongut.works/k8s/scope.yaml?k8s-version=1.9.3
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nholuongut-scope-cluster-agent
+  labels:
+    name: nholuongut-scope-cluster-agent
+    app: nholuongut-scope
+    nholuongut-cloud-component: scope
+    nholuongut-scope-component: cluster-agent
+  namespace: nholuongut
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: nholuongut-scope-cluster-agent
+      app: nholuongut-scope
+      nholuongut-cloud-component: scope
+      nholuongut-scope-component: cluster-agent
+  revisionHistoryLimit: 2
+  template:
+    metadata:
+      labels:
+        name: nholuongut-scope-cluster-agent
+        app: nholuongut-scope
+        nholuongut-cloud-component: scope
+        nholuongut-scope-component: cluster-agent
+    spec:
+      containers:
+        - name: scope-cluster-agent
+          args:
+            - '--mode=probe'
+            - '--probe-only'
+            - '--probe.kubernetes.role=cluster'
+            - 'nholuongut-scope-app.nholuongut.svc.cluster.local.:80'
+          command:
+            - /home/nholuongut/scope
+          image: 'docker.io/nholuongut/scope:1.11.5'
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+      serviceAccountName: nholuongut-scope

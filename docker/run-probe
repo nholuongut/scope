@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# shellcheck disable=SC1091
+source /var/run/nholuongut/scope-probe.args
+
+exec -a scope-probe /home/nholuongut/scope --mode probe "${ARGS[@]}"

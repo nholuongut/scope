@@ -1,0 +1,32 @@
+# borrowed from https://cloud.nholuongut.works/k8s/scope.yaml?k8s-version=1.10.0
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nholuongut-scope-app
+  labels:
+    name: nholuongut-scope-app
+    app: nholuongut-scope
+    nholuongut-cloud-component: scope
+    nholuongut-scope-component: app
+  namespace: nholuongut
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  template:
+    metadata:
+      labels:
+        name: nholuongut-scope-app
+        app: nholuongut-scope
+        nholuongut-cloud-component: scope
+        nholuongut-scope-component: app
+    spec:
+      containers:
+        - name: app
+          args:
+            - '--no-probe'
+          env: []
+          image: nholuongut/scope:1.11.5
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 4040
+              protocol: TCP

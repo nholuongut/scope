@@ -1,0 +1,24 @@
+---
+# Set up Development Environment for nholuongut Net.
+
+- name: check if nholuongut net has been checked out
+  become: false  # Run as SSH-user
+  stat:
+    path: $HOME/src/github.com/nholuongutworks/nholuongut
+  register: nholuongut
+  failed_when: false
+  changed_when: false
+
+- name: git clone nholuongut net
+  become: false  # Run as SSH-user
+  git:
+    repo: https://github.com/nholuongutworks/nholuongut.git
+    dest: $HOME/src/github.com/nholuongutworks/nholuongut
+  when: not nholuongut.stat.exists
+
+- name: create a convenience symlink to $HOME/src/github.com/nholuongutworks/nholuongut
+  become: false  # Run as SSH-user
+  file:
+    src: $HOME/src/github.com/nholuongutworks/nholuongut
+    dest: $HOME/nholuongut
+    state: link

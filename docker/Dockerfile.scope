@@ -1,0 +1,17 @@
+FROM nholuongut/cloud-agent
+LABEL maintainer="Nho Luong <luongutnho@hotmail.com>"
+RUN apk add --no-cache runit
+COPY ./demo.json /
+COPY ./nholuongut ./nholuongututil /usr/bin/
+COPY ./runsvinit ./entrypoint.sh /home/nholuongut/
+COPY ./run-app /etc/service/app/run
+COPY ./run-probe /etc/service/probe/run
+EXPOSE 4040
+ENTRYPOINT ["/home/nholuongut/entrypoint.sh"]
+
+ARG revision
+LABEL maintainer="nholuongut <luongutnho@hotmail.com>" \
+      org.opencontainers.image.title="scope" \
+      org.opencontainers.image.source="https://github.com/nholuongut/scope" \
+      org.opencontainers.image.revision="${revision}" \
+      org.opencontainers.image.vendor="nholuongut"

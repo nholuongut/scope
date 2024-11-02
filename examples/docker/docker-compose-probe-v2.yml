@@ -1,0 +1,14 @@
+version: '2'
+services:
+  probe:
+    image: nholuongut/scope:1.11.5
+    network_mode: "host"
+    pid: "host"
+    privileged: true
+    labels:
+      - "works.nholuongut.role=system"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:rw"
+    command:
+      - "--probe.docker=true"
+      - "--service-token=${SCOPE_SERVICE_TOKEN}"
